@@ -53,4 +53,71 @@ add build steps and select Execute Windows batch command type java --version
 
 
 
-    
+    create docker folder
+
+create file sample.py -> 
+
+print("Ayush")
+
+create file Dockerfile no.txt -> 
+
+FROM python
+WORKDIR /app
+COPY . /app
+CMD ["python","sample.py"]
+
+python sample.py
+
+docker build -t test_3 .
+
+docker images
+
+docker run --name con3 test_3
+
+docker login
+
+docker tag test_3 majenayu/test_3
+
+docker push majenayu/test_3
+
+
+same for  prog 2 but after this 
+
+download ->
+
+docker
+docker pipeline
+docker compose build step
+cloudbees docker custom build environment
+
+create doc and select pipeline
+
+in script add this ->
+
+pipeline {
+    agent any
+
+    environment {
+        registry = 'majenayu/test_3'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Majenayu/dock.git'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                script {
+                    docker.build("${registry}")
+                }
+            }
+        }
+    }
+}
+
+after this run
